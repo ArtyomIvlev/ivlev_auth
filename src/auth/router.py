@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import select, insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_async_session
-from auth.models import User
 from auth.schemas import UserCreate
+from auth import service
 
 
 router = APIRouter(
@@ -13,17 +12,12 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get("/admin/all_users/")
 async def get_all_users(session: AsyncSession = Depends(get_async_session)):
-    query = select(User)
-    result = await session.execute(query)
-    return [dict(r._mapping) for r in result.all()]
+    return await service.view_all_users(session)
 
 
-@router.post("/")
-async def add_user(new_user: UserCreate,
-                   session: AsyncSession = Depends(get_async_session)):
-    stmt = insert(User).values(**new_user.model_dump())
-    await session.execute(stmt)
-    await session.commit()
-    return {"status": "success"}
+@router.post("/admin/add_user/")
+async def register_user(new_user: UserCreate,
+                        session: AsyncSession = Depends(get_async_session)):
+    return await service.add_user(new_user, session)
