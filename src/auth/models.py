@@ -1,9 +1,15 @@
-
+from datetime import datetime
 from typing import Optional
+
+import uuid
+
+from sqlalchemy import ForeignKey
+from sqlalchemy import String, Integer
+from sqlalchemy import func
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import String, Integer
+from sqlalchemy.orm import relationship
 
 
 class Base(DeclarativeBase):
@@ -13,19 +19,39 @@ class Base(DeclarativeBase):
 metadata = Base.metadata
 
 
-class User(Base):
+class DefaultBase(Base):
+    __abstract__ = True
+
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True)
+
+    created_at: Mapped[datetime] = mapped_column(insert_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(insert_default=func.now())
+
+
+class User(DefaultBase):
     __tablename__ = "user"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(30))
-    first_name: Mapped[str] = mapped_column(String(30))
-    second_name: Mapped[Optional[str]]
-    age: Mapped[int] = mapped_column(Integer)
-    phone_number: Mapped[str] = mapped_column(String(10))
-    current_course: Mapped[str] = mapped_column(String(10))
-    joined_at: Mapped[Optional[str]]
-    last_action: Mapped[Optional[str]]
     password: Mapped[str] = mapped_column(String(10))
+
+    profiles: Mapped["Profile"] = relationship(back_populates="user")
+
+    def __repr__(self) -> str:
+        return f"User(id={self.id!r}, \
+                name={self.first_name!r}, fullname={self.second_name!r})"
+
+
+class Profile(DefaultBase):
+    __tablename__ = "profile"
+
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"))
+    first_name: Mapped[Optional[str]]
+    second_name: Mapped[Optional[str]]
+    age: Mapped[Optional[int]] = mapped_column(Integer)
+    phone_number: Mapped[Optional[str]] = mapped_column(String(10))
+    current_course: Mapped[Optional[str]] = mapped_column(String(10))
+
+    user: Mapped["User"] = relationship(back_populates="profiles")
 
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, \
