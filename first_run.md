@@ -11,3 +11,19 @@
 
 5. запустить проект
    python src/main.py
+
+
+Первый запуск(создаем .env и сеть для проекта, поднимаем контейнеры)
+
+1. `cp .env.example .env`
+2. `docker network create app_main`
+3. `docker-compose up -d --build`
+
+Миграции
+```shell
+docker compose exec app alembic revision -m "Name_migration" --autogenerate
+```
+- Run migrations
+```shell
+docker compose exec app alembic upgrade head
+```
