@@ -13,17 +13,31 @@
    python src/main.py
 
 
-Первый запуск(создаем .env и сеть для проекта, поднимаем контейнеры)
+Первый запуск(создаем .env, сеть для проекта и поднимаем контейнеры)
 
-1. `cp .env.example .env`
+1. `cp .env_sample .env`
 2. `docker network create app_main`
 3. `docker-compose up -d --build`
 
-Миграции
+- Миграции
 ```shell
 docker compose exec app alembic revision -m "Name_migration" --autogenerate
 ```
 - Run migrations
 ```shell
 docker compose exec app alembic upgrade head
+```
+
+
+
+- Troubleshooting
+
+занят порт 5432
+```
+sudo lsof -i tcp:5432
+sudo kill PID
+```
+права на скрипты
+```
+chmod +x ./scripts/start-dev.sh
 ```
