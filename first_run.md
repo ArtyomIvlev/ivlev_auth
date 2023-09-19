@@ -15,7 +15,7 @@
 
 Первый запуск(создаем .env, сеть для проекта и поднимаем контейнеры)
 
-1. `cp .env_sample .env`
+1. `cp .env_sample .env` (mkdir migrations/versions)
 2. `docker network create app_main`
 3. `docker-compose up -d --build`
 
