@@ -31,14 +31,13 @@ class DefaultBase(Base):
 class User(DefaultBase):
     __tablename__ = "user"
 
-    email: Mapped[str] = mapped_column(String(30))
+    email: Mapped[str] = mapped_column(String(30), unique=True, index=True)
     password: Mapped[str] = mapped_column(String(10))
 
     profiles: Mapped["Profile"] = relationship(back_populates="user")
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, \
-                name={self.first_name!r}, fullname={self.second_name!r})"
+        return f"User(id={self.id!r}, email={self.email!r})"
 
 
 class Profile(DefaultBase):
@@ -54,5 +53,5 @@ class Profile(DefaultBase):
     user: Mapped["User"] = relationship(back_populates="profiles")
 
     def __repr__(self) -> str:
-        return f"User(id={self.id!r}, \
+        return f"Profile(id={self.id!r}, \
                 name={self.first_name!r}, fullname={self.second_name!r})"

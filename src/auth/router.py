@@ -28,12 +28,5 @@ async def get_all_users(session: AsyncSession = Depends(get_async_session)):
 @router.post("/admin/add_user/")
 async def add_user(new_user: UserCreate,
                    session: AsyncSession = Depends(get_async_session)):
-    try:
-        result = await service.add_user(new_user, session)
-        return result
-    except Exception:
-        raise HTTPException(status_code=500, detail={
-            "status": "error",
-            "data": None,
-            "details": None
-        })
+    result = await service.add_user(new_user, session)
+    return result
