@@ -1,5 +1,5 @@
-from auth.constants import ErrorCode
-from exceptions import BadRequest
+from src.auth.constants import ErrorCode
+from src.exceptions import BadRequest
 
 
 class EmailExists(BadRequest):
