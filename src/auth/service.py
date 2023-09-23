@@ -1,11 +1,13 @@
 import uuid
 
-from sqlalchemy import select, insert
+from sqlalchemy import select
+from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from auth.models import User, Profile
-from auth.exceptions import EmailExists
-from auth.schemas import UserCreate
+from src.auth.models import Profile
+from src.auth.models import User
+from src.auth.exceptions import EmailExists
+from src.auth.schemas import UserCreate
 
 
 async def get_user_by_email(email: str, session: AsyncSession):
@@ -37,9 +39,10 @@ async def add_user(user: UserCreate, session: AsyncSession):
 
     query = select(User.id).filter(User.email == context['email'])
     user_id = await session.execute(query)
-    stmt = insert(Profile).values(id=uuid.uuid4(),
-                                  user_id=user_id.scalar()
-                                  )
+    stmt = insert(Profile).values(
+        id=uuid.uuid4(),
+        user_id=user_id.scalar()
+    )
     await session.execute(stmt)
     await session.commit()
     return {"status": "success"}
