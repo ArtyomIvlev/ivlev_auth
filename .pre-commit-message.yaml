@@ -1,0 +1,32 @@
+# https://pre-commit.com/hooks.html
+repos:
+-   repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+        - id: isort
+          types: [ python ]
+          stages: [ commit ]
+-   repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+        - id: black
+          stages: [ commit ]
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 3.8.4
+    hooks:
+      - id: flake8
+        stages: [ commit ]
+
+-   repo: local
+    hooks:
+        - id: check-commit-message
+          name: Check commit message
+          language: system
+          entry: scripts/pre_commit_message.sh
+          stages: [ commit ]
+        - id: mypy
+          name: mypy
+          language: system
+          entry: scripts/run_mypy.sh
+          stages: [ commit ]
