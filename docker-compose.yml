@@ -19,7 +19,7 @@ services:
   app_db:
     container_name: app_db
     hostname: app_db
-    image: library/postgres:14.1
+    image: bitnami/postgresql:15.4.0
     environment:
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=app

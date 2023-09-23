@@ -1,9 +1,11 @@
 import uuid
 
-from sqlalchemy import select, insert
+from sqlalchemy import select
+from sqlalchemy import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.auth.models import User, Profile
+from src.auth.models import Profile
+from src.auth.models import User
 from src.auth.exceptions import EmailExists
 from src.auth.schemas import UserCreate
 
