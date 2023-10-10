@@ -18,6 +18,11 @@ async def root():
     return server_status
 
 
+@app.on_event("shutdown")
+async def shutdown_event():
+    print("FastAPI is shutting down")
+
+
 def configure():
     configure_routing()
 
