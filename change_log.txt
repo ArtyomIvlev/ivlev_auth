@@ -1,5 +1,6 @@
 INIT\FIX\UPDATE\APPEND\
 
+Release v1.0.1
 [AF-1]-initial_docs
     UPDATE:добавлен Readme файл. Добавлены цели проекта
 
@@ -12,3 +13,8 @@ INIT\FIX\UPDATE\APPEND\
 [AF-14]-Docker
     INIT:Создана сборка docker-compose. Собран образ для app. 
     Приложение состоит из двух контейнеров(app, app_db)  
+
+
+Release v1.0.2
+[AF-13]-Pytest
+    INIT:добавлен модуль pytest. Настройки и базовые тесты приложения admin 

@@ -8,6 +8,16 @@ app = FastAPI(
 )
 
 
+@app.get('/')
+async def root():
+    server_status = {
+        'status': 'running',
+        'api_version': '0.1',
+        'message': 'Welcome to the IVLEV_AUTH!'
+    }
+    return server_status
+
+
 def configure():
     configure_routing()
 
