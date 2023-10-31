@@ -41,3 +41,8 @@ docker compose exec app alembic upgrade head
 
 5. Запустить проект
     uvicorn src.main:app --log-level debug
+
+    
+# Тесты:
+1. Создать пустую базу для тестов в соответствии с параметрами из .env
+2. Запуск тестов pytest -v

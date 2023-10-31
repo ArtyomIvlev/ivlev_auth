@@ -8,6 +8,21 @@ app = FastAPI(
 )
 
 
+@app.get('/')
+async def root():
+    server_status = {
+        'status': 'running',
+        'api_version': '0.1',
+        'message': 'Welcome to the IVLEV_AUTH!'
+    }
+    return server_status
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    print("FastAPI is shutting down")
+
+
 def configure():
     configure_routing()
 
