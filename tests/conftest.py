@@ -1,10 +1,8 @@
 import asyncio
 from typing import AsyncGenerator
-
+from typing import Dict
 from httpx import AsyncClient
 import pytest
-# import pytest_asyncio
-# from async_asgi_testclient import TestClient
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
@@ -57,3 +55,18 @@ def event_loop(request):
 async def ac() -> AsyncGenerator[AsyncClient, None]:
     async with AsyncClient(app=app, base_url="http://test") as ac:
         yield ac
+
+
+@pytest.fixture
+async def user_data() -> Dict[str, str]:
+    data = {
+        "email": "user@example.com",
+        "password": "string"
+    }
+    return data
+
+
+@pytest.fixture
+async def db_session():
+    async with async_session_maker() as db_session:
+        yield db_session
